@@ -1,16 +1,168 @@
 import java.util.*;
 
-public class MyLinkedList implements List<LinkedList> {
+public class MyList implements List<Integer>, Deque<Integer> {
 
-    private String name;
-    public MyLinkedList(String value){
+    private final String name;
 
-        name=value;
+    public MyList(String value) {
+
+        name = value;
     }
-    String getName(){return name;}
+
+    public String getName() {
+        return name;
+    }
+
+    private static class Node<E> {
+        public Integer element;
+        E item;
+        Node<E> next;
+        Node<E> prev;
+
+        Node(Node<E> prev, E element) {
+            this.item = element;
+            this.prev = prev;
+        }
+    }
+
+    public int element;
+    public Node<Integer> first;
+    public Node<Integer> last;
+    public int size;
 
 
+    @Override
+    public void addLast(Integer integer) {
+        final Node<Integer> l = last;
+        final Node<Integer> newNode = new Node<>(l, null);
+        last = newNode;
+        if (l == null)
+            first = newNode;
+        else
+            l.next = newNode;
+        size++;
+    }
 
+    @Override
+    public void addFirst(Integer integer) {
+        final Node<Integer> f = first;
+        final Node<Integer> newNode = new Node<>(f, null);
+        first = newNode;
+        if (f == null)
+            last = newNode;
+        else
+            f.prev = newNode;
+        size++;
+    }
+
+
+    @Override
+    public boolean offerFirst(Integer integer) {
+        return false;
+    }
+
+    @Override
+    public boolean offerLast(Integer integer) {
+        return false;
+    }
+
+    @Override
+    public Integer removeFirst() {
+        return null;
+    }
+
+    @Override
+    public Integer removeLast() {
+        return null;
+    }
+
+    @Override
+    public Integer pollFirst() {
+        return null;
+    }
+
+    @Override
+    public Integer pollLast() {
+        return null;
+    }
+
+    @Override
+    public Integer getFirst() {
+        final Node<Integer> f = first;
+        if (f == null)
+            throw new NoSuchElementException();
+        return f.item;
+    }
+
+    @Override
+    public Integer getLast() {
+        final Node<Integer> l = last;
+        if (l == null)
+            throw new NoSuchElementException();
+        return l.item;
+    }
+
+    @Override
+    public Integer peekFirst() {
+        return null;
+    }
+
+    @Override
+    public Integer peekLast() {
+        final Node<Integer> l = last;
+        return (l == null) ? null : l.item;
+    }
+
+
+    @Override
+    public boolean removeFirstOccurrence(Object o) {
+        return false;
+    }
+
+    @Override
+    public boolean removeLastOccurrence(Object o) {
+        return false;
+    }
+
+    @Override
+    public boolean offer(Integer integer) {
+        return false;
+    }
+
+    @Override
+    public Integer remove() {
+        return null;
+    }
+
+    @Override
+    public Integer poll() {
+        return null;
+    }
+
+    @Override
+    public Integer element() {
+        return null;
+    }
+
+    @Override
+    public Integer peek() {
+        return null;
+    }
+
+    @Override
+    public void push(Integer integer) {
+
+    }
+
+    @Override
+    public Integer pop() {
+        return null;
+    }
+
+    @Override
+    public Iterator<Integer> descendingIterator() {
+        return null;
+    }
 
     @Override
     public int size() {
@@ -28,7 +180,7 @@ public class MyLinkedList implements List<LinkedList> {
     }
 
     @Override
-    public Iterator<LinkedList> iterator() {
+    public Iterator<Integer> iterator() {
         return null;
     }
 
@@ -43,7 +195,7 @@ public class MyLinkedList implements List<LinkedList> {
     }
 
     @Override
-    public boolean add(LinkedList linkedList) {
+    public boolean add(Integer integer) {
         return false;
     }
 
@@ -58,12 +210,12 @@ public class MyLinkedList implements List<LinkedList> {
     }
 
     @Override
-    public boolean addAll(Collection<? extends LinkedList> c) {
+    public boolean addAll(Collection<? extends Integer> c) {
         return false;
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends LinkedList> c) {
+    public boolean addAll(int index, Collection<? extends Integer> c) {
         return false;
     }
 
@@ -79,26 +231,46 @@ public class MyLinkedList implements List<LinkedList> {
 
     @Override
     public void clear() {
+        first = null;
+        last = null;
+        size = 0;
 
     }
 
     @Override
-    public LinkedList get(int index) {
+    public Integer get(int index)  {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        Node result = first;
+        for (int i = 0; i < index; i++) {
+            result = result.next;
+        }
+
+        return result.element;
+    }
+
+    @Override
+    public Integer set(int index, Integer element) {
+
+        Node<Integer> x = node(index);
+        Integer oldVal = x.item;
+        x.item = element;
+        return oldVal;
+    }
+
+    private Node<Integer> node(int index) {
         return null;
     }
 
-    @Override
-    public LinkedList set(int index, LinkedList element) {
-        return null;
-    }
 
     @Override
-    public void add(int index, LinkedList element) {
+    public void add(int index, Integer element) {
 
     }
 
     @Override
-    public LinkedList remove(int index) {
+    public Integer remove(int index) {
         return null;
     }
 
@@ -113,17 +285,20 @@ public class MyLinkedList implements List<LinkedList> {
     }
 
     @Override
-    public ListIterator<LinkedList> listIterator() {
+    public ListIterator<Integer> listIterator() {
         return null;
     }
 
     @Override
-    public ListIterator<LinkedList> listIterator(int index) {
+    public ListIterator<Integer> listIterator(int index) {
         return null;
     }
 
     @Override
-    public List<LinkedList> subList(int fromIndex, int toIndex) {
+    public List<Integer> subList(int fromIndex, int toIndex) {
         return null;
     }
+
+
 }
+
