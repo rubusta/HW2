@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         LinkedList<String> vegitables = new LinkedList<>();
-
+        //VERSION2
         /*основные методы LinkedList
            addFirst() / offerFirst(): добавляет элемент в начало списка
            addLast() / offerLast(): добавляет элемент в конец списка
