@@ -15,6 +15,8 @@ public class MyList implements List<Integer>, Deque<Integer> {
 
     private static class Node<E> {
         public Integer element;
+        public Node<E> previous;
+        public Object data;
         E item;
         Node<E> next;
         Node<E> prev;
@@ -68,14 +70,17 @@ public class MyList implements List<Integer>, Deque<Integer> {
 
     @Override
     public Integer removeFirst() {
+
+        if (first == null) {
+            throw new NoSuchElementException();
+        } else {
+            Node nextNode = first.next;
+            nextNode.previous = null;
+            first = first.next;
+            size--;
+        }
         return null;
     }
-
-    @Override
-    public Integer removeLast() {
-        return null;
-    }
-
     @Override
     public Integer pollFirst() {
         return null;
@@ -196,12 +201,12 @@ public class MyList implements List<Integer>, Deque<Integer> {
 
     @Override
     public boolean add(Integer integer) {
-        return false;
-    }
 
-    @Override
-    public boolean remove(Object o) {
-        return false;
+        linkLast();
+        return true;
+
+    }
+    private void linkLast() {
     }
 
     @Override
@@ -238,7 +243,7 @@ public class MyList implements List<Integer>, Deque<Integer> {
     }
 
     @Override
-    public Integer get(int index)  {
+    public Integer get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
@@ -298,7 +303,41 @@ public class MyList implements List<Integer>, Deque<Integer> {
     public List<Integer> subList(int fromIndex, int toIndex) {
         return null;
     }
+    @Override
+    public Integer removeLast() {
+        if (last == null) {
+            throw new NoSuchElementException();
+        } else {
+            Node previousNode = last.previous;
+            previousNode.next = null;
+            last = last.previous;
+            size--;
+        }
+        return null;
+    }
 
+    @Override
+    public boolean remove(Object element) {
+        Node currentNode = first;
+        for (int i = 0; i < size; i++) {
+            if (currentNode.data.equals(element)) {
+                Node next = currentNode.next;
+                Node previous = currentNode.previous;
+                if (next != null) {
+                    next.previous = previous;
 
+                }
+                if (previous != null) {
+                    previous.next = next;
+
+                }
+                size--;
+                return true;
+            }
+            //  currentNode = currentNode.next;
+        }
+        size--;
+        return false;
+    }
 }
 
